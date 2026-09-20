@@ -1,0 +1,29 @@
+name: kuafor_app
+description: Kuaför randevu — işletme ve müşteri
+publish_to: "none"
+version: 1.0.1+4
+
+environment:
+  sdk: ^3.11.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  http: ^1.5.0
+  intl: ^0.20.2
+  shared_preferences: ^2.5.3
+  table_calendar: ^3.2.0
+  image_picker: ^1.2.0
+  musait:
+    path: ../packages/musait
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

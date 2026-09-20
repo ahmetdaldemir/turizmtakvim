@@ -1,0 +1,86 @@
+Kuaför Randevu — Google Play Console metinleri
+Paket: com.musaitvillam.kuafor
+Cihaz adı: Kuaför Randevu
+Proje: kuafor/  →  flutter build appbundle --release
+
+==================================================
+UYGULAMA ADI (en fazla 30 karakter)
+==================================================
+Kuaför Randevu
+
+==================================================
+KISA AÇIKLAMA (en fazla 80 karakter)
+==================================================
+Salon yönetimi ve müşteri randevusu. Takvim, talep onayı, düzenleme ve iptal.
+
+==================================================
+TAM AÇIKLAMA (en fazla 4000 karakter)
+==================================================
+Kuaför Randevu, kuaför ve güzellik salonları için işletme yönetimi ile müşteri randevusunu tek uygulamada birleştirir.
+
+Girişte İşletme veya Müşteri seçin. Yalnızca kuaför sektörü çalışır; villa veya konaklama bu uygulamada yoktur.
+
+İşletme (salon yöneticisi)
+• Aylık takvimde randevuları görün
+• Müşteri taleplerini onaylayın veya reddedin
+• Şube / koltuk tanımlayın
+• Müşteri ekleyin; hesap uygulama içinden açılmaz
+• Randevu ekleyin, düzenleyin veya iptal edin
+
+Müşteri
+• Sizi ekleyen salonu görün
+• Müsait gün ve saati seçin
+• Randevu talebi gönderin
+• Bekleyen ve onaylı randevuları listeleyin
+• Tarihi geçmemiş randevuyu düzenleyin veya iptal edin
+
+Nasıl çalışır
+Salon yöneticisi müşteriyi ekler. Müşteri e-posta ve şifreyle Müşteri sekmesinden giriş yapar, müsait saati seçip talep gönderir. Yönetici İşletme girişi ile talebi onaylar.
+
+Kimler için
+Kuaför, berber ve güzellik salonu yöneticileri ile onların müşterileri.
+
+Gizlilik: https://musaitvillam.com/policy
+Destek: https://musaitvillam.com
+Web: https://musaitvillam.com/kuafor/
+
+==================================================
+UYGULAMA KATEGORİSİ
+==================================================
+Uygulama → Lifestyle (Yaşam Tarzı)
+Etiketler: Randevu, Güzellik, İş
+
+==================================================
+İLETİŞİM
+==================================================
+E-posta: (Play Console hesap e-postanız)
+Web: https://musaitvillam.com
+Gizlilik: https://musaitvillam.com/policy
+
+==================================================
+GRAFİKLER
+==================================================
+Yüksek çözünürlüklü simge 512×512:
+store/play/kuafor/icon-512.png
+
+Öne çıkan grafik 1024×500 (zorunlu):
+store/play/kuafor/feature-graphic.png
+
+Telefon ekran görüntüleri 1080×1920 (8 adet, en az 2):
+store/play/kuafor/screenshots/1080x1920/
+01-giris.png … 08-kayitlar.png sırasıyla yükleyin.
+
+Tablet görselleri isteğe bağlıdır; bu pakette yoktur.
+
+==================================================
+İÇERİK DERECELENDİRME
+==================================================
+Herkes / Everyone. Reklam, kumar, konum yok.
+
+==================================================
+HEDEF KİTLE / DATA SAFETY
+==================================================
+Toplanan: e-posta, ad (hesap), randevu kayıtları.
+Amaç: uygulama işlevi.
+Paylaşılmaz, satılmaz, takip yok.
+Müşteri hesabını salon yöneticisi oluşturur.

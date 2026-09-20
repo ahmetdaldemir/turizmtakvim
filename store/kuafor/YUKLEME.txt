@@ -1,0 +1,54 @@
+Kuaför Randevu — iOS ve Android yükleme paketi
+Paket: com.musaitvillam.kuafor
+Ad: Kuaför Randevu  (mağaza adı = cihaz adı)
+Sürüm: 1.0.1 (4)
+
+Android çıktıları:
+  store/dist/kuafor.aab   → Play Console
+  store/dist/kuafor.apk   → iç test
+
+iOS: kuafor/ios/Runner.xcworkspace → scheme Runner → Archive
+(Xcode imzalar; App Store’a IPA buradan çıkar.)
+
+------------------------------------------------
+iOS — App Store Connect
+------------------------------------------------
+Workspace: kuafor/ios/Runner.xcworkspace
+Scheme: Runner · Any iOS Device · Product → Archive
+
+Metinler: store/appstore/kuafor/listing.txt
+  Ad, alt başlık, açıklama, URL’ler, anahtar kelimeler, App Review notu
+
+Ekran görüntüleri (sırayla 01 … 10):
+  iPhone 6.9"  →  store/appstore/kuafor/screenshots/1320x2868/
+  iPad 13"     →  store/appstore/kuafor/screenshots/2064x2752/
+
+İkon: store/appstore/kuafor/icon-1024.png
+Gizlilik: https://musaitvillam.com/policy
+Destek: https://musaitvillam.com
+Pazarlama: https://musaitvillam.com/kuafor/
+Telif: 2026 Gökhan Yılmaz
+
+Test hesabı (Review Notes’a yapıştırın):
+  İşletme  kuafor@takvim.app / Demo123!
+  Müşteri  musteri@takvim.app / Demo123!
+
+------------------------------------------------
+Android — Play Console
+------------------------------------------------
+Derleme: kuafor/ klasöründe
+  flutter build appbundle --release
+Çıktı: kuafor/build/app/outputs/bundle/release/app-release.aab
+
+Metinler: store/play/kuafor/listing.txt
+
+Grafikler:
+  Simge 512×512     store/play/kuafor/icon-512.png
+  Feature 1024×500  store/play/kuafor/feature-graphic.png
+  Telefon 1080×1920 store/play/kuafor/screenshots/1080x1920/  (8 görsel)
+
+------------------------------------------------
+Görselleri yeniden üretmek
+------------------------------------------------
+python3 scripts/generate-kuafor-screenshots.py
+python3 scripts/generate-ipad-screenshots.py kuafor

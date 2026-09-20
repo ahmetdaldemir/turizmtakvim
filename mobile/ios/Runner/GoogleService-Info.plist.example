@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BUNDLE_ID</key>
+	<string>com.musaitvillam.yonetim</string>
+	<key>PROJECT_ID</key>
+	<string>musaitvillam</string>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:0:ios:yonetim</string>
+	<key>API_KEY</key>
+	<string>PASTE_FROM_FIREBASE</string>
+</dict>
+</plist>

@@ -1,0 +1,142 @@
+Müsait Villam — App Store Connect metinleri
+Uygulama adı cihaz adı ile aynı olmalı: Müsait Villam
+Paket: com.musaitvillam.villa
+Xcode: villa/ios/Runner.xcworkspace · Scheme: Runner
+
+App Store Connect’te yeni uygulama kaydı bu bundle ID ile açılmalı.
+Kuaför kaydına (com.musaitvillam.kuafor) villa arşivi yüklenmez.
+
+==================================================
+UYGULAMA ADI (en fazla 30 karakter)
+==================================================
+Müsait Villam
+
+==================================================
+ALT BAŞLIK / SUBTITLE (en fazla 30 karakter)
+==================================================
+Villa yönetimi ve rezervasyon
+
+==================================================
+TANITIM METNİ / PROMOTIONAL TEXT (en fazla 170 karakter)
+==================================================
+Villalarınızı yönetin: takvim, talepler ve müşteriler. Müşteri olarak müsait tarih aralığını seçin, rezervasyon talep edin, düzenleyin veya iptal edin.
+
+==================================================
+AÇIKLAMA / DESCRIPTION
+==================================================
+Müsait Villam, villa ve konaklama işletmeleri için işletme yönetimi ile müşteri rezervasyonunu tek uygulamada birleştirir.
+
+Girişte İşletme veya Müşteri seçin. Yalnızca villa / konaklama çalışır; kuaför randevusu bu uygulamada yoktur.
+
+İşletme (villa yöneticisi)
+• Aylık takvimde dolu ve müsait günleri görün
+• Müşteri rezervasyon taleplerini onaylayın veya reddedin
+• Villa tanımlayın
+• Müşteri ekleyin; hesap uygulama içinden açılmaz
+• Rezervasyon ekleyin, düzenleyin veya iptal edin
+
+Müşteri
+• Sizi ekleyen işletmeyi ve villaları görün
+• Müsait tarih aralığını seçin
+• Rezervasyon talebi gönderin
+• Bekleyen ve onaylı rezervasyonları listeleyin
+• Tarihi geçmemiş rezervasyonu düzenleyin veya iptal edin
+
+Nasıl çalışır
+İşletme yöneticisi müşteriyi ekler. Müşteri e-posta ve şifreyle Müşteri sekmesinden giriş yapar, giriş–çıkış tarihlerini seçip talep gönderir. Yönetici İşletme girişi ile talebi onaylar. Onaylı rezervasyon takvimde dolu görünür.
+
+Kimler için
+Villa, tesis ve konaklama yöneticileri ile onların müşterileri.
+
+==================================================
+PRIVACY POLICY URL
+==================================================
+https://musaitvillam.com/policy
+
+==================================================
+SUPPORT URL
+==================================================
+https://musaitvillam.com
+
+==================================================
+MARKETING URL
+==================================================
+https://musaitvillam.com/villa/
+
+==================================================
+COPYRIGHT
+==================================================
+2026 Gökhan Yılmaz
+
+==================================================
+ANAHTAR KELİMELER / KEYWORDS (en fazla 100 karakter)
+==================================================
+villa,rezervasyon,takvim,konaklama,tatil,tesis,yonetim,musteri,kiralama
+
+==================================================
+YENİLİKLER / WHAT’S NEW (1.0.0)
+==================================================
+İşletme ve müşteri aynı uygulamada. Girişte İşletme veya Müşteri seçin. Takvim, talep onayı, rezervasyon düzenleme ve iptal.
+
+==================================================
+GİZLİLİK / App Privacy kısa not
+==================================================
+Giriş için e-posta kullanılır. Konum, rehber veya takip verisi toplanmaz. Müşteri hesabını villa yöneticisi oluşturur.
+
+==================================================
+KATEGORİ
+==================================================
+Ana: Travel (Seyahat)
+İkinci: Lifestyle (Yaşam Tarzı)
+
+==================================================
+APP REVIEW NOTU (Review Notes)
+==================================================
+Bu uygulama villa / konaklama işletmesi ve müşterisi içindir. Giriş ekranında İşletme veya Müşteri seçilir.
+
+İşletme (yönetici):
+E-posta: villa@takvim.app
+Şifre: Demo123!
+
+Müşteri:
+E-posta: villa.musteri@takvim.app
+Şifre: Demo123!
+
+Kayıt açık değildir. Kuaför randevusu bu binary’de yoktur.
+Cihaz adı ve mağaza adı: Müsait Villam
+Bundle ID: com.musaitvillam.villa
+
+==================================================
+SKU (yeni uygulama oluştururken)
+==================================================
+musaitvillam-villa
+
+==================================================
+EKRAN GÖRÜNTÜLERİ (2.3.10 düzeltmesi)
+==================================================
+Sahte / Android status bar yok. iOS durum çubuğu çizilmez.
+
+Hangi kutu hangi klasör (boyut birebir uymalı):
+
+iPhone 6.5" / “1242 × 2688 or 1284 × 2778” kutusu:
+store/appstore/villa/screenshots/1284x2778/
+(alternatif: store/appstore/villa/screenshots/1242x2688/)
+
+iPhone 6.9" kutusu (1320×2868):
+store/appstore/villa/screenshots/1320x2868/
+
+iPad 13" kutusu (2064×2752):
+store/appstore/villa/screenshots/2064x2752/
+
+6.5" kutusuna 1320 veya iPad görseli sürüklemeyin; Apple reddeder.
+
+Sırayla sürükleyin: 01-giris … 10-iptal
+App Store Connect → Previews and Screenshots → View All Sizes in Media Manager
+
+İkon 1024:
+store/appstore/villa/icon-1024.png
+
+==================================================
+APP REVIEW CEVABI (2.3.10)
+==================================================
+Guideline 2.3.10 için ekran görüntülerini yeniledik. Önceki görsellerde iOS olmayan durum çubuğu vardı; yeni görsellerde durum çubuğu yok ve yalnızca iOS uygulamanın kendi arayüzü görünüyor. Lütfen yeni screenshot’larla incelemeyi tekrarlayın.

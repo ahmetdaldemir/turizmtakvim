@@ -1,0 +1,122 @@
+Kuaför Randevu — App Store Connect metinleri
+Uygulama adı cihaz adı ile aynı olmalı: Kuaför Randevu
+Paket: com.musaitvillam.kuafor
+Xcode: kuafor/ios/Runner.xcworkspace · Scheme: Runner
+
+==================================================
+UYGULAMA ADI (en fazla 30 karakter)
+==================================================
+Kuaför Randevu
+
+==================================================
+ALT BAŞLIK / SUBTITLE (en fazla 30 karakter)
+==================================================
+Salon yönetimi ve randevu
+
+==================================================
+TANITIM METNİ / PROMOTIONAL TEXT (en fazla 170 karakter)
+==================================================
+Kuaför salonunuzu yönetin: takvim, talepler, şubeler ve müşteriler. Müşteri olarak müsait saati seçin, randevu alın, düzenleyin veya iptal edin.
+
+==================================================
+AÇIKLAMA / DESCRIPTION
+==================================================
+Kuaför Randevu, kuaför ve güzellik salonları için işletme yönetimi ile müşteri randevusunu tek uygulamada birleştirir.
+
+Girişte İşletme veya Müşteri seçin. Yalnızca kuaför sektörü çalışır; villa veya konaklama bu uygulamada yoktur.
+
+İşletme (salon yöneticisi)
+• Aylık takvimde randevuları görün
+• Müşteri taleplerini onaylayın veya reddedin
+• Şube / koltuk tanımlayın
+• Müşteri ekleyin; hesap uygulama içinden açılmaz
+• Randevu ekleyin, düzenleyin veya iptal edin
+
+Müşteri
+• Sizi ekleyen salonu görün
+• Müsait gün ve saati seçin
+• Randevu talebi gönderin
+• Bekleyen ve onaylı randevuları listeleyin
+• Tarihi geçmemiş randevuyu düzenleyin veya iptal edin
+
+Nasıl çalışır
+Salon yöneticisi müşteriyi ekler. Müşteri e-posta ve şifreyle Müşteri sekmesinden giriş yapar, müsait saati seçip talep gönderir. Yönetici İşletme girişi ile talebi onaylar. Onaylı randevu takvimde dolu görünür.
+
+Kimler için
+Kuaför, berber ve güzellik salonu yöneticileri ile onların müşterileri.
+
+==================================================
+PRIVACY POLICY URL
+==================================================
+https://musaitvillam.com/policy
+
+==================================================
+SUPPORT URL
+==================================================
+https://musaitvillam.com
+
+==================================================
+MARKETING URL
+==================================================
+https://musaitvillam.com/kuafor/
+
+==================================================
+COPYRIGHT
+==================================================
+2026 Gökhan Yılmaz
+
+==================================================
+ANAHTAR KELİMELER / KEYWORDS (en fazla 100 karakter)
+==================================================
+kuafor,randevu,berber,sac,salon,takvim,guzellik,yonetim,musteri
+
+==================================================
+YENİLİKLER / WHAT’S NEW (1.0.0)
+==================================================
+İşletme ve müşteri aynı uygulamada. Girişte İşletme veya Müşteri seçin. Takvim, talep onayı, randevu düzenleme ve iptal.
+
+==================================================
+GİZLİLİK / App Privacy kısa not
+==================================================
+Giriş için e-posta kullanılır. Konum, rehber veya takip verisi toplanmaz. Müşteri hesabını salon yöneticisi oluşturur.
+
+==================================================
+KATEGORİ
+==================================================
+Ana: Lifestyle (Yaşam Tarzı)
+İkinci: Business (İş)
+
+==================================================
+APP REVIEW NOTU (Review Notes)
+==================================================
+Bu uygulama kuaför işletmesi ve müşterisi içindir. Giriş ekranında İşletme veya Müşteri seçilir.
+
+İşletme (yönetici):
+E-posta: kuafor@takvim.app
+Şifre: Demo123!
+
+Müşteri:
+E-posta: musteri@takvim.app
+Şifre: Demo123!
+
+Kayıt açık değildir. Villa / konaklama bu binary’de yoktur.
+Cihaz adı ve mağaza adı: Kuaför Randevu
+Bundle ID: com.musaitvillam.kuafor
+
+==================================================
+EKRAN GÖRÜNTÜLERİ
+==================================================
+Zorunlu iPhone 6.9" (10 görsel):
+store/appstore/kuafor/screenshots/1320x2868/
+
+Zorunlu iPad 13" (uygulama iPad’de çalışır, 10 görsel):
+store/appstore/kuafor/screenshots/2064x2752/
+
+Yedek 6.5" (isteğe bağlı):
+store/appstore/kuafor/screenshots/1242x2688/
+
+Sırayla sürükleyin: 01-giris … 10-iptal
+Sahte status bar yoktur. En fazla 10 görsel; video yoktur.
+
+İkon 1024:
+store/appstore/kuafor/icon-1024.png

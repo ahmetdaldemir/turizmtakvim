@@ -1,0 +1,25 @@
+İki ayrı mobil uygulama (turizmtakvim altında iki proje).
+İkisi de https://musaitvillam.com API’sini kullanır.
+Her uygulamada işletme (yönetim) ve müşteri girişi aynı binary içindedir.
+
+1) Kuaför Randevu
+   Paket: com.musaitvillam.kuafor
+   Cihaz / mağaza adı: Kuaför Randevu
+   Proje: kuafor/
+   Xcode: kuafor/ios/Runner.xcworkspace
+   Scheme: Runner (flavor yok)
+   Android: kuafor/ klasöründe flutter build appbundle --release
+
+2) Müsait Villam
+   Paket: com.musaitvillam.villa
+   Cihaz / mağaza adı: Müsait Villam
+   Proje: villa/
+   Xcode: villa/ios/Runner.xcworkspace
+   Scheme: Runner (flavor yok)
+   Android: villa/ klasöründe flutter build appbundle --release
+
+App Store’da Kuaför kaydına yalnızca kuafor/ios/Runner.xcworkspace arşivi yüklenir.
+Mağaza metinleri ve görseller: store/kuafor/YUKLEME.txt
+Villa kaydına yalnızca villa/ios/Runner.xcworkspace arşivi yüklenir.
+Mağaza metinleri: store/villa/YUKLEME.txt
+mobile/ ve customer/ web ve eski flavor derlemeleri içindir; mağazaya bunlardan yüklemeyin.

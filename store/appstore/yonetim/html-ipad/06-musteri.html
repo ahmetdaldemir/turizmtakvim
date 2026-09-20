@@ -1,0 +1,105 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 2064px; height: 2752px; overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  color: #fff;
+}
+.stage {
+  width: 2064px; height: 2752px;
+  background: linear-gradient(165deg, #042F2E 0%, #115E59 40%, #0F766E 72%, #5EEAD4 100%);
+  padding: 110px 96px 0;
+  position: relative;
+}
+.kicker {
+  font-size: 32px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+  opacity: .85; margin-bottom: 24px;
+}
+.headline {
+  font-size: 104px; font-weight: 800; line-height: 1.05;
+  letter-spacing: -2px; white-space: pre-line;
+}
+.sub {
+  margin-top: 28px; font-size: 40px; line-height: 1.35; font-weight: 500;
+  opacity: .92; max-width: 1500px;
+}
+.phone {
+  position: absolute; left: 132px; top: 820px;
+  width: 1800px; height: 1932px;
+  background: #F7F5F2; color: #111827;
+  border-radius: 44px 44px 0 0;
+  box-shadow: 0 40px 90px rgba(0,0,0,.28);
+  overflow: hidden; display: flex; flex-direction: column;
+}
+.status {
+  height: 84px; display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 56px 0; font-size: 32px; font-weight: 700;
+}
+.appbar { padding: 12px 48px 24px; display: flex; align-items: center; justify-content: space-between; }
+.appbar h1 { font-size: 48px; font-weight: 800; }
+.body { flex: 1; padding: 8px 48px 24px; }
+.card { background: #fff; border-radius: 28px; padding: 32px 36px; margin-bottom: 22px; }
+.card h2 { font-size: 40px; font-weight: 800; }
+.card p { font-size: 30px; color: #6B7280; margin-top: 8px; }
+.label { font-size: 26px; color: #6B7280; margin-bottom: 10px; font-weight: 600; }
+.field {
+  background: #fff; border: 2px solid #E5E7EB; border-radius: 22px;
+  padding: 24px 28px; font-size: 34px; margin-bottom: 18px;
+}
+.btn {
+  background: #0F766E; color: #fff; border-radius: 24px; text-align: center;
+  padding: 28px; font-size: 34px; font-weight: 800; margin-top: 12px;
+}
+.btn.ghost { background: #fff; color: #0F766E; border: 3px solid #0F766E; }
+.btn.warn { background: #fff; color: #B45309; border: 3px solid #F59E0B; }
+.nav {
+  height: 150px; background: #fff; display: flex; border-top: 1px solid #EDE8E1;
+}
+.nav .tab {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 700; color: #6B7280; gap: 8px;
+}
+.nav .tab.on { color: #0F766E; }
+.cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; text-align: center; }
+.cal .dow { font-size: 24px; color: #6B7280; font-weight: 700; padding: 10px 0; }
+.cal .d {
+  height: 86px; display: flex; align-items: center; justify-content: center;
+  font-size: 32px; font-weight: 700; border-radius: 50%; position: relative;
+}
+.cal .d.sel { background: #0F766E; color: #fff; }
+.cal .d.busy { color: #DC2626; text-decoration: line-through; }
+.cal .d.today { background: color-mix(in srgb, #0F766E 18%, white); }
+.cal .d.dot::after {
+  content: ""; width: 12px; height: 12px; background: #0F766E; border-radius: 50%;
+  position: absolute; bottom: 8px;
+}
+.cal .d.sel.dot::after { background: #fff; }
+.chips { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 16px; }
+.chip {
+  background: #fff; border: 2px solid #E5E7EB; border-radius: 999px;
+  padding: 16px 26px; font-size: 30px; font-weight: 700;
+}
+.chip.on { background: #0F766E; color: #fff; border-color: #0F766E; }
+.badge { font-size: 30px; font-weight: 800; }
+.badge.ok { color: #059669; }
+.badge.wait { color: #D97706; }
+.hint { font-size: 28px; color: #6B7280; margin: 12px 0 8px; }
+.icon { font-size: 36px; }
+</style></head>
+<body><div class="stage">
+  <div class="kicker">MÜŞTERİ</div>
+  <div class="headline">Müşteriyi siz
+ekleriniz</div>
+  <div class="sub">Hesabı yönetici oluşturur. Müşteri kendi uygulamasından talep gönderir.</div>
+  <div class="phone">
+        <div class="status"><span>09:41</span><span>●●●●</span></div>
+        <div class="appbar"><h1>Müşteri</h1></div>
+        <div class="body">
+          <div class="card"><h2>Ayşe Yılmaz</h2><p>ayse@ornek.com</p></div>
+          <div class="card"><h2>Can Demir</h2><p>can@ornek.com</p></div>
+          <div class="card"><h2>Elif Kaya</h2><p>elif@ornek.com</p></div>
+          <div class="btn">Müşteri ekle</div>
+        </div>
+        <div class="nav"><div class="tab "><span class="icon">📅</span>Takvim</div><div class="tab "><span class="icon">📥</span>Talepler<span class="badge wait">2</span></div><div class="tab "><span class="icon">🏠</span>Villa</div><div class="tab on"><span class="icon">👤</span>Müşteri</div></div>
+        </div>
+</div></body></html>

@@ -1,0 +1,41 @@
+Müsait Villam — iOS ve Android yükleme metinleri
+Paket: com.musaitvillam.villa
+Ad: Müsait Villam  (mağaza adı = cihaz adı)
+
+App Store Connect’te uygulama kaydı bundle ID = com.musaitvillam.villa olmalıdır.
+Kuaför kaydına villa arşivi yüklenmez.
+
+------------------------------------------------
+iOS — App Store Connect
+------------------------------------------------
+Workspace: villa/ios/Runner.xcworkspace
+Scheme: Runner · Any iOS Device · Product → Archive
+
+Tüm metinler (kopyala-yapıştır):
+  store/appstore/villa/listing.txt
+
+Gizlilik: https://musaitvillam.com/policy
+Destek: https://musaitvillam.com
+Pazarlama: https://musaitvillam.com/villa/
+Telif: 2026 Gökhan Yılmaz
+SKU: musaitvillam-villa
+
+Test hesabı (Review Notes’a yapıştırın):
+  İşletme  villa@takvim.app / Demo123!
+  Müşteri  villa.musteri@takvim.app / Demo123!
+
+Ekran görüntüleri (2.3.10 — Android/sahte status bar yok):
+  iPhone 6.9": store/appstore/villa/screenshots/1320x2868/
+  iPad 13":    store/appstore/villa/screenshots/2064x2752/
+App Store Connect → Previews and Screenshots → View All Sizes in Media Manager
+Eski görselleri silip 01-giris … 10-iptal sırasıyla yükleyin.
+
+------------------------------------------------
+Android — Play Console
+------------------------------------------------
+Derleme: villa/ klasöründe
+  flutter build appbundle --release
+Çıktı: villa/build/app/outputs/bundle/release/app-release.aab
+
+Tüm metinler:
+  store/play/villa/listing.txt

@@ -1,0 +1,85 @@
+Müsait Villam Yönetim — App Store Connect metinleri
+
+==================================================
+UYGULAMA ADI (en fazla 30 karakter)
+==================================================
+Müsait Villam Yönetim
+
+==================================================
+ALT BAŞLIK (en fazla 30 karakter)
+==================================================
+Takvim, talep ve müşteri
+
+==================================================
+TANITIM METNİ (en fazla 170 karakter)
+==================================================
+Villa rezervasyonu ve kuaför randevusunu tek takvimde yönetin. Talepleri onaylayın, müşteri ekleyin, kayıtları düzenleyin veya iptal edin.
+
+==================================================
+AÇIKLAMA
+==================================================
+Müsait Villam Yönetim, villa işletmeleri ve kuaför salonları için rezervasyon ve randevu takvimidir.
+
+Süper yönetici SaaS kullanıcılarını ekler. Villa veya kuaför yöneticisi yalnızca kendi işletmesinin takvimini, taleplerini, villalarını / şubelerini ve müşterilerini görür.
+
+Ne yapabilirsiniz
+• Aylık takvimde dolu ve müsait günleri görün
+• Rezervasyon veya randevu ekleyin, düzenleyin, iptal edin
+• Müşteri taleplerini onaylayın veya reddedin
+• Villa, şube veya koltuk tanımlayın
+• Müşteri ekleyin; müşteri kendi uygulamasından talep gönderir
+• Tarih aralığına göre kayıtları süzün
+• Profil ve şifre yönetin
+
+İki sektör
+Villa yöneticisi konaklama tarih aralığı ile çalışır. Kuaför yöneticisi tek gün ve saat ile randevu alır. İki sektörün müşteri uygulamaları ayrıdır.
+
+Kimler için
+Villa / tesisi olan işletmeler ve kuaför, berber, güzellik salonu yöneticileri. Son müşteri bu uygulamayı kullanmaz; Villa veya Kuaför Randevu uygulamasını kullanır.
+
+Destek
+https://musaitvillam.com
+Web: https://musaitvillam.com/yonetim/
+
+==================================================
+ANAHTAR KELİMELER (en fazla 100 karakter)
+==================================================
+rezervasyon,randevu,takvim,villa,kuafor,otel,yonetim,musteri,salon,tesis
+
+==================================================
+YENİLİKLER (1.0.0)
+==================================================
+İlk sürüm. Takvim, talep onayı, villa/şube, müşteri yönetimi, düzenleme ve iptal.
+
+==================================================
+KATEGORİ
+==================================================
+Ana: Business (İş)
+İkinci: Productivity (Üretkenlik)
+
+==================================================
+PRIVACY POLICY URL
+==================================================
+https://musaitvillam.com/policy
+
+==================================================
+SUPPORT URL
+==================================================
+https://musaitvillam.com
+
+==================================================
+MARKETING URL
+==================================================
+https://musaitvillam.com/yonetim/
+
+==================================================
+COPYRIGHT
+==================================================
+2026 Gökhan Yılmaz
+
+==================================================
+PAKET
+==================================================
+com.musaitvillam.yonetim
+Sürüm 1.0.0 (1)
+Team MN3RP979J5

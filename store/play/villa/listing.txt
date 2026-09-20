@@ -1,0 +1,78 @@
+Müsait Villam — Google Play Console metinleri
+Paket: com.musaitvillam.villa
+Cihaz adı: Müsait Villam
+Proje: villa/  →  flutter build appbundle --release
+
+==================================================
+UYGULAMA ADI (en fazla 30 karakter)
+==================================================
+Müsait Villam
+
+==================================================
+KISA AÇIKLAMA (en fazla 80 karakter)
+==================================================
+Villa yönetimi ve müşteri rezervasyonu. Takvim, talep onayı, düzenleme ve iptal.
+
+==================================================
+TAM AÇIKLAMA (en fazla 4000 karakter)
+==================================================
+Müsait Villam, villa ve konaklama işletmeleri için işletme yönetimi ile müşteri rezervasyonunu tek uygulamada birleştirir.
+
+Girişte İşletme veya Müşteri seçin. Yalnızca villa / konaklama çalışır; kuaför randevusu bu uygulamada yoktur.
+
+İşletme (villa yöneticisi)
+• Aylık takvimde dolu ve müsait günleri görün
+• Müşteri rezervasyon taleplerini onaylayın veya reddedin
+• Villa tanımlayın
+• Müşteri ekleyin; hesap uygulama içinden açılmaz
+• Rezervasyon ekleyin, düzenleyin veya iptal edin
+
+Müşteri
+• Sizi ekleyen işletmeyi ve villaları görün
+• Müsait tarih aralığını seçin
+• Rezervasyon talebi gönderin
+• Bekleyen ve onaylı rezervasyonları listeleyin
+• Tarihi geçmemiş rezervasyonu düzenleyin veya iptal edin
+
+Nasıl çalışır
+İşletme yöneticisi müşteriyi ekler. Müşteri e-posta ve şifreyle Müşteri sekmesinden giriş yapar, giriş–çıkış tarihlerini seçip talep gönderir. Yönetici İşletme girişi ile talebi onaylar.
+
+Kimler için
+Villa, tesis ve konaklama yöneticileri ile onların müşterileri.
+
+Gizlilik: https://musaitvillam.com/policy
+Destek: https://musaitvillam.com
+Web: https://musaitvillam.com/villa/
+
+==================================================
+UYGULAMA KATEGORİSİ
+==================================================
+Uygulama → Travel (Seyahat)
+Etiketler: Rezervasyon, Tatil, İş
+
+==================================================
+İLETİŞİM
+==================================================
+E-posta: (Play Console hesap e-postanız)
+Web: https://musaitvillam.com
+Gizlilik: https://musaitvillam.com/policy
+
+==================================================
+GRAFİKLER
+==================================================
+Simge 512: store/play/villa/icon-512.png
+Öne çıkan grafik: store/play/villa/feature-graphic.png
+Telefon ekran görüntüleri: store/play/villa/screenshots/1080x1920/
+
+==================================================
+İÇERİK DERECELENDİRME
+==================================================
+Herkes / Everyone. Reklam, kumar, konum yok.
+
+==================================================
+HEDEF KİTLE / DATA SAFETY
+==================================================
+Toplanan: e-posta, ad (hesap), rezervasyon kayıtları.
+Amaç: uygulama işlevi.
+Paylaşılmaz, satılmaz, takip yok.
+Müşteri hesabını villa yöneticisi oluşturur.

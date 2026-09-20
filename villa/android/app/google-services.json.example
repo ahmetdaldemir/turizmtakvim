@@ -1,0 +1,26 @@
+{
+  "project_info": {
+    "project_number": "0",
+    "project_id": "musaitvillam",
+    "storage_bucket": "musaitvillam.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:0:android:villa",
+        "android_client_info": {
+          "package_name": "com.musaitvillam.villa"
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:0:android:kuafor",
+        "android_client_info": {
+          "package_name": "com.musaitvillam.kuafor"
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
