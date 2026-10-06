@@ -12,16 +12,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late final TextEditingController _email;
-  final _password = TextEditingController(text: 'Demo123!');
+  final _email = TextEditingController();
+  final _password = TextEditingController();
   var _loading = false;
   String? _error;
-
-  @override
-  void initState() {
-    super.initState();
-    _email = TextEditingController(text: AppConfig.demoEmail);
-  }
 
   Future<void> _submit() async {
     setState(() {
@@ -80,8 +74,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 16),
             Text('Kayıt açık değildir. Hesabı ${AppConfig.sectorLabel} yöneticisi oluşturur.'),
-            const SizedBox(height: 12),
-            Text('Demo: ${AppConfig.demoEmail} / Demo123!'),
           ],
         ),
       ),

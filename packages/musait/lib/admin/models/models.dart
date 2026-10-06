@@ -18,6 +18,14 @@ int asInt(dynamic value) {
 
 int? asIntOrNull(dynamic value) => value == null ? null : asInt(value);
 
+double asMoney(dynamic value) {
+  if (value == null) return 0;
+  if (value is num) return value.toDouble();
+  return double.parse(value.toString().replaceAll(',', '.'));
+}
+
+double? asMoneyOrNull(dynamic value) => value == null ? null : asMoney(value);
+
 class VerticalConfig {
   const VerticalConfig({
     required this.key,
@@ -334,7 +342,7 @@ class BookingRequest {
   final String? startTime;
   final String? notes;
 
-  bool get isPending => status == 'pending';
+  bool get isPending => status == 'pending' || status == 'beklemede';
 
   bool overlapsRange(DateTime from, DateTime to) {
     final start = dateOnly(from);
@@ -429,6 +437,8 @@ class ManagedCustomer {
     required this.email,
     this.phone,
     this.sectorLabel,
+    this.visitCount = 0,
+    this.totalSpent = 0,
   });
 
   final int id;
@@ -436,6 +446,8 @@ class ManagedCustomer {
   final String email;
   final String? phone;
   final String? sectorLabel;
+  final int visitCount;
+  final double totalSpent;
 
   factory ManagedCustomer.fromJson(Map<String, dynamic> json) {
     return ManagedCustomer(
@@ -444,6 +456,102 @@ class ManagedCustomer {
       email: json['email'] as String,
       phone: json['phone'] as String?,
       sectorLabel: json['sectorLabel'] as String?,
+      visitCount: asIntOrNull(json['visitCount']) ?? 0,
+      totalSpent: asMoney(json['totalSpent']),
+    );
+  }
+}
+
+class CustomerStats {
+  const CustomerStats({
+    required this.visitCount,
+    required this.requestCount,
+    required this.totalSpent,
+    this.firstVisit,
+    this.lastVisit,
+  });
+
+  final int visitCount;
+  final int requestCount;
+  final double totalSpent;
+  final DateTime? firstVisit;
+  final DateTime? lastVisit;
+
+  factory CustomerStats.fromJson(Map<String, dynamic> json) {
+    DateTime? date(dynamic value) {
+      if (value is! String || value.isEmpty) return null;
+      return dateOnly(DateTime.parse(value));
+    }
+
+    return CustomerStats(
+      visitCount: asIntOrNull(json['visitCount']) ?? 0,
+      requestCount: asIntOrNull(json['requestCount']) ?? 0,
+      totalSpent: asMoney(json['totalSpent']),
+      firstVisit: date(json['firstVisit']),
+      lastVisit: date(json['lastVisit']),
+    );
+  }
+}
+
+class CustomerHistoryEntry {
+  const CustomerHistoryEntry({
+    required this.id,
+    required this.kind,
+    required this.title,
+    required this.occurredOn,
+    required this.canEdit,
+    this.amount,
+    this.notes,
+    this.statusLabel,
+    this.statusColor,
+  });
+
+  final int id;
+  final String kind;
+  final String title;
+  final DateTime occurredOn;
+  final bool canEdit;
+  final double? amount;
+  final String? notes;
+  final String? statusLabel;
+  final String? statusColor;
+
+  bool get isService => kind == 'service';
+
+  factory CustomerHistoryEntry.fromJson(Map<String, dynamic> json) {
+    return CustomerHistoryEntry(
+      id: asInt(json['id']),
+      kind: json['kind'] as String? ?? 'service',
+      title: json['title'] as String,
+      occurredOn: dateOnly(DateTime.parse(json['occurredOn'] as String)),
+      canEdit: json['canEdit'] as bool? ?? false,
+      amount: asMoneyOrNull(json['amount']),
+      notes: json['notes'] as String?,
+      statusLabel: json['statusLabel'] as String?,
+      statusColor: json['statusColor'] as String?,
+    );
+  }
+}
+
+class CustomerHistory {
+  const CustomerHistory({
+    required this.customer,
+    required this.stats,
+    required this.timeline,
+  });
+
+  final ManagedCustomer customer;
+  final CustomerStats stats;
+  final List<CustomerHistoryEntry> timeline;
+
+  factory CustomerHistory.fromJson(Map<String, dynamic> json) {
+    final raw = json['timeline'];
+    return CustomerHistory(
+      customer: ManagedCustomer.fromJson(asJsonMap(json['customer'])),
+      stats: CustomerStats.fromJson(asJsonMap(json['stats'])),
+      timeline: raw is List
+          ? raw.map((item) => CustomerHistoryEntry.fromJson(asJsonMap(item))).toList()
+          : const [],
     );
   }
 }

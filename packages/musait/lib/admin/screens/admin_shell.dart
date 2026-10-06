@@ -30,8 +30,8 @@ class _AdminShellState extends State<AdminShell> {
 
   Future<void> _refreshBadge() async {
     try {
-      final count = await widget.session.api.unreadCount();
-      if (mounted) setState(() => _unread = count);
+      final requests = await widget.session.api.fetchRequests();
+      if (mounted) setState(() => _unread = requests.where((item) => item.isPending).length);
     } catch (_) {}
   }
 

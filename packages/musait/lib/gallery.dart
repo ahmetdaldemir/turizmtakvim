@@ -1,3 +1,16 @@
+import 'package:musait/config.dart';
+
+String? galleryMediaUrl(String? url) {
+  if (url == null || url.isEmpty) return null;
+  final uri = Uri.tryParse(url);
+  if (uri == null) return url;
+  final path = uri.hasScheme ? uri.path : (url.startsWith('/') ? url : '/$url');
+  if (path.startsWith('/api/gallery/files/') || !uri.hasScheme) {
+    return '${AppConfig.baseUrl}$path';
+  }
+  return url;
+}
+
 class GalleryPhoto {
   const GalleryPhoto({required this.id, required this.url});
 
@@ -7,7 +20,7 @@ class GalleryPhoto {
   factory GalleryPhoto.fromJson(Map<String, dynamic> json) {
     return GalleryPhoto(
       id: (json['id'] as num).toInt(),
-      url: json['url'] as String,
+      url: galleryMediaUrl(json['url'] as String) ?? '',
     );
   }
 }
@@ -36,7 +49,7 @@ class GalleryAlbum {
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       photoCount: (json['photoCount'] as num?)?.toInt() ?? 0,
-      coverUrl: json['coverUrl'] as String?,
+      coverUrl: galleryMediaUrl(json['coverUrl'] as String?),
       createdAt: created is String ? DateTime.tryParse(created) : null,
       photos: rawPhotos is List
           ? rawPhotos.map((item) => GalleryPhoto.fromJson(item as Map<String, dynamic>)).toList()

@@ -24,7 +24,9 @@ class _CustomerGalleryScreenState extends State<CustomerGalleryScreen> {
   }
 
   Future<void> _reload() async {
-    setState(() => _future = widget.session.api.albums());
+    setState(() {
+      _future = widget.session.api.albums();
+    });
     await _future;
   }
 

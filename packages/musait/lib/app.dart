@@ -12,9 +12,13 @@ import 'screens/gate_login_screen.dart';
 import 'theme.dart';
 
 class MusaitApp {
-  static Future<void> start({required String sector}) async {
+  static Future<void> start({required String sector, String? apiBase}) async {
     WidgetsFlutterBinding.ensureInitialized();
-    AppConfig.boot(sector: sector);
+    const fromEnv = String.fromEnvironment('API_BASE');
+    AppConfig.boot(
+      sector: sector,
+      apiBase: apiBase ?? (fromEnv.isEmpty ? 'https://musaitvillam.com' : fromEnv),
+    );
     await initializeDateFormatting('tr');
     final session = AppSession();
     await session.restore();

@@ -71,9 +71,9 @@ ANAHTAR KELİMELER / KEYWORDS (en fazla 100 karakter)
 kuafor,randevu,berber,sac,salon,takvim,guzellik,yonetim,musteri
 
 ==================================================
-YENİLİKLER / WHAT’S NEW (1.0.0)
+YENİLİKLER / WHAT’S NEW (1.0.3)
 ==================================================
-İşletme ve müşteri aynı uygulamada. Girişte İşletme veya Müşteri seçin. Takvim, talep onayı, randevu düzenleme ve iptal.
+Müşteri adı, telefon ve şifre düzenlenebilir. Yapılan işlem ve alınan tutar müşteri kartına yazılır; kronoloji ve toplam ciro görünür. Galeri albümü düzenlenir. Giriş alanları boş açılır.
 
 ==================================================
 GİZLİLİK / App Privacy kısa not

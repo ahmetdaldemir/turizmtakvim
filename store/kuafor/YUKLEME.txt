@@ -1,14 +1,16 @@
 Kuaför Randevu — iOS ve Android yükleme paketi
 Paket: com.musaitvillam.kuafor
 Ad: Kuaför Randevu  (mağaza adı = cihaz adı)
-Sürüm: 1.0.1 (4)
+Sürüm: 1.0.3 (6)
 
 Android çıktıları:
   store/dist/kuafor.aab   → Play Console
   store/dist/kuafor.apk   → iç test
 
-iOS: kuafor/ios/Runner.xcworkspace → scheme Runner → Archive
-(Xcode imzalar; App Store’a IPA buradan çıkar.)
+iOS çıktısı:
+  store/dist/kuafor.ipa
+  kuafor/build/ios/ipa/KuaförRandevu.ipa
+Transporter veya Xcode Organizer ile App Store Connect’e yükleyin.
 
 ------------------------------------------------
 iOS — App Store Connect

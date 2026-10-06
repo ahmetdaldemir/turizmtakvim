@@ -5,7 +5,7 @@ import { env } from './config.js';
 import { pool } from './db.js';
 import { bearer, login, logout, requireAdmin, requireAuth, requireTenant, requestPasswordReset, resetPasswordWithToken, updateProfile } from './auth.js';
 import { statuses, verticals } from './verticals.js';
-import { assertKuafor, createAlbum, deleteAlbum, getAlbum, listAlbums, resolveFile } from './gallery.js';
+import { addPhotos, assertKuafor, createAlbum, deleteAlbum, deletePhoto, getAlbum, listAlbums, resolveFile, updateAlbum } from './gallery.js';
 import {
   cancelReservation,
   createReservation,
@@ -17,7 +17,8 @@ import {
 import { createResource, deleteResource, listResources, updateResource } from './resources.js';
 import { createTenant, listTenants, panelStats, updateTenant } from './tenants.js';
 import { loginCustomer, logoutCustomer, requireCustomer } from './customer_auth.js';
-import { createCustomerForTenant, deleteCustomer, getCustomerBusiness, listCustomers } from './customers.js';
+import { createCustomerForTenant, deleteCustomer, getCustomerBusiness, listCustomers, updateCustomerForTenant } from './customers.js';
+import { createCustomerEntry, deleteCustomerEntry, getCustomerHistory, updateCustomerEntry } from './customer_history.js';
 import {
   approveRequest,
   cancelCustomerRequest,
@@ -39,7 +40,8 @@ const galleryUpload = multer({
   storage: multer.memoryStorage(),
   limits: { files: 20, fileSize: 8 * 1024 * 1024 },
   fileFilter(_req, file, done) {
-    if (!/^image\/(jpeg|jpg|png|webp)$/i.test(file.mimetype)) {
+    const type = String(file.mimetype || '').toLowerCase();
+    if (type && !type.startsWith('image/') && type !== 'application/octet-stream') {
       done(Object.assign(new Error('Yalnızca JPEG, PNG veya WebP yükleyin.'), { status: 400 }));
       return;
     }
@@ -193,9 +195,46 @@ app.post('/api/customers', requireAuth, requireTenant, asyncHandler(async (req, 
   }
 }));
 
+app.patch('/api/customers/:id', requireAuth, requireTenant, asyncHandler(async (req, res) => {
+  try {
+    res.json(await updateCustomerForTenant(req.user.tenant, parseId(req.params.id), req.body ?? {}));
+  } catch (error) {
+    error.status = error.status || 400;
+    throw error;
+  }
+}));
+
 app.delete('/api/customers/:id', requireAuth, requireTenant, asyncHandler(async (req, res) => {
   const deleted = await deleteCustomer(req.tenantId, parseId(req.params.id));
   if (!deleted) return res.status(404).json({ error: 'Müşteri bulunamadı.' });
+  res.status(204).end();
+}));
+
+app.get('/api/customers/:id/history', requireAuth, requireTenant, asyncHandler(async (req, res) => {
+  res.json(await getCustomerHistory(req.tenantId, parseId(req.params.id)));
+}));
+
+app.post('/api/customers/:id/history', requireAuth, requireTenant, asyncHandler(async (req, res) => {
+  try {
+    res.status(201).json(await createCustomerEntry(req.tenantId, parseId(req.params.id), req.body ?? {}));
+  } catch (error) {
+    error.status = error.status || 400;
+    throw error;
+  }
+}));
+
+app.patch('/api/customers/:id/history/:entryId', requireAuth, requireTenant, asyncHandler(async (req, res) => {
+  try {
+    res.json(await updateCustomerEntry(req.tenantId, parseId(req.params.id), parseId(req.params.entryId), req.body ?? {}));
+  } catch (error) {
+    error.status = error.status || 400;
+    throw error;
+  }
+}));
+
+app.delete('/api/customers/:id/history/:entryId', requireAuth, requireTenant, asyncHandler(async (req, res) => {
+  const deleted = await deleteCustomerEntry(req.tenantId, parseId(req.params.id), parseId(req.params.entryId));
+  if (!deleted) return res.status(404).json({ error: 'Kayıt bulunamadı.' });
   res.status(204).end();
 }));
 
@@ -224,6 +263,41 @@ app.post(
     }
   }),
 );
+
+app.patch('/api/gallery/albums/:id', requireAuth, requireTenant, requireKuaforTenant, asyncHandler(async (req, res) => {
+  try {
+    const album = await updateAlbum(req.tenantId, parseId(req.params.id), req.body?.title);
+    if (!album) return res.status(404).json({ error: 'Albüm bulunamadı.' });
+    res.json(album);
+  } catch (error) {
+    error.status = error.status || 400;
+    throw error;
+  }
+}));
+
+app.post(
+  '/api/gallery/albums/:id/photos',
+  requireAuth,
+  requireTenant,
+  requireKuaforTenant,
+  galleryUpload.array('photos', 20),
+  asyncHandler(async (req, res) => {
+    try {
+      const album = await addPhotos(req.tenantId, parseId(req.params.id), req.files);
+      if (!album) return res.status(404).json({ error: 'Albüm bulunamadı.' });
+      res.json(album);
+    } catch (error) {
+      error.status = error.status || 400;
+      throw error;
+    }
+  }),
+);
+
+app.delete('/api/gallery/albums/:id/photos/:photoId', requireAuth, requireTenant, requireKuaforTenant, asyncHandler(async (req, res) => {
+  const album = await deletePhoto(req.tenantId, parseId(req.params.id), parseId(req.params.photoId));
+  if (!album) return res.status(404).json({ error: 'Görsel bulunamadı.' });
+  res.json(album);
+}));
 
 app.delete('/api/gallery/albums/:id', requireAuth, requireTenant, requireKuaforTenant, asyncHandler(async (req, res) => {
   const deleted = await deleteAlbum(req.tenantId, parseId(req.params.id));

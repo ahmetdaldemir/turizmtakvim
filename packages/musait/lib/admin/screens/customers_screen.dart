@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../models/models.dart';
 import '../models/session.dart';
 import 'package:musait/theme.dart';
 import 'admin_shell.dart';
+import 'customer_form_sheet.dart';
+import 'customer_history_screen.dart';
+
+final _money = NumberFormat.currency(locale: 'tr_TR', symbol: '₺');
 
 class CustomersScreen extends StatefulWidget {
   const CustomersScreen({super.key, required this.session});
@@ -24,7 +29,9 @@ class _CustomersScreenState extends State<CustomersScreen> {
   }
 
   Future<void> _reload() async {
-    setState(() => _future = widget.session.api.fetchCustomers());
+    setState(() {
+      _future = widget.session.api.fetchCustomers();
+    });
     await _future;
   }
 
@@ -97,11 +104,40 @@ class _CustomersScreenState extends State<CustomersScreen> {
                             contentPadding: const EdgeInsets.fromLTRB(16, 6, 4, 6),
                             title: Text(item.name, style: const TextStyle(fontWeight: FontWeight.w700)),
                             subtitle: Text(
-                              [item.email, item.phone].whereType<String>().where((value) => value.isNotEmpty).join('\n'),
+                              [
+                                if (item.visitCount > 0) '${item.visitCount} işlem · ${_money.format(item.totalSpent)}',
+                                item.email,
+                                item.phone,
+                              ].whereType<String>().where((value) => value.isNotEmpty).join('\n'),
                             ),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.delete_outline),
-                              onPressed: () => _delete(item),
+                            onTap: () async {
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => CustomerHistoryScreen(session: widget.session, customer: item),
+                                ),
+                              );
+                              await _reload();
+                            },
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit_outlined),
+                                  onPressed: () async {
+                                    final saved = await showModalBottomSheet<bool>(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (context) => AddCustomerSheet(session: widget.session, customer: item),
+                                    );
+                                    if (saved == true) await _reload();
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete_outline),
+                                  onPressed: () => _delete(item),
+                                ),
+                              ],
                             ),
                           ),
                         );
@@ -113,83 +149,6 @@ class _CustomersScreenState extends State<CustomersScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class AddCustomerSheet extends StatefulWidget {
-  const AddCustomerSheet({super.key, required this.session});
-
-  final SessionController session;
-
-  @override
-  State<AddCustomerSheet> createState() => _AddCustomerSheetState();
-}
-
-class _AddCustomerSheetState extends State<AddCustomerSheet> {
-  final _name = TextEditingController();
-  final _email = TextEditingController();
-  final _phone = TextEditingController();
-  final _password = TextEditingController();
-  var _loading = false;
-  String? _error;
-
-  Future<void> _submit() async {
-    setState(() {
-      _loading = true;
-      _error = null;
-    });
-    try {
-      await widget.session.api.createCustomer(
-        name: _name.text.trim(),
-        email: _email.text.trim(),
-        phone: _phone.text.trim(),
-        password: _password.text,
-      );
-      if (!mounted) return;
-      Navigator.pop(context, true);
-    } catch (error) {
-      if (mounted) setState(() => _error = error.toString());
-    } finally {
-      if (mounted) setState(() => _loading = false);
-    }
-  }
-
-  @override
-  void dispose() {
-    _name.dispose();
-    _email.dispose();
-    _phone.dispose();
-    _password.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final inset = MediaQuery.viewInsetsOf(context).bottom;
-    return Padding(
-      padding: EdgeInsets.fromLTRB(16, 16, 16, 16 + inset),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Text('Müşteri ekle', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
-          const SizedBox(height: 14),
-          TextField(controller: _name, textCapitalization: TextCapitalization.words, decoration: const InputDecoration(labelText: 'Ad')),
-          const SizedBox(height: 10),
-          TextField(controller: _email, keyboardType: TextInputType.emailAddress, decoration: const InputDecoration(labelText: 'E-posta')),
-          const SizedBox(height: 10),
-          TextField(controller: _phone, keyboardType: TextInputType.phone, decoration: const InputDecoration(labelText: 'Telefon')),
-          const SizedBox(height: 10),
-          TextField(controller: _password, obscureText: true, decoration: const InputDecoration(labelText: 'Şifre')),
-          if (_error != null) ...[
-            const SizedBox(height: 10),
-            Text(_error!, style: const TextStyle(color: Colors.red)),
-          ],
-          const SizedBox(height: 14),
-          FilledButton(onPressed: _loading ? null : _submit, child: Text(_loading ? 'Ekleniyor...' : 'Kaydet')),
-        ],
       ),
     );
   }

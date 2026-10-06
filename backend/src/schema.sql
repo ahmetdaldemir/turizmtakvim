@@ -152,6 +152,20 @@ CREATE TABLE IF NOT EXISTS gallery_photos (
 CREATE INDEX IF NOT EXISTS idx_gallery_albums_tenant ON gallery_albums (tenant_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_gallery_photos_album ON gallery_photos (album_id, sort_order);
 
+CREATE TABLE IF NOT EXISTS customer_entries (
+  id SERIAL PRIMARY KEY,
+  tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+  customer_id INTEGER NOT NULL REFERENCES customers(id) ON DELETE CASCADE,
+  occurred_on DATE NOT NULL DEFAULT CURRENT_DATE,
+  title VARCHAR(200) NOT NULL,
+  amount NUMERIC(12,2) NOT NULL DEFAULT 0,
+  notes TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_customer_entries_customer ON customer_entries (customer_id, occurred_on DESC, id DESC);
+CREATE INDEX IF NOT EXISTS idx_customer_entries_tenant ON customer_entries (tenant_id, occurred_on DESC);
+
 CREATE TABLE IF NOT EXISTS reservation_reminders (
   reservation_id INTEGER NOT NULL REFERENCES reservations(id) ON DELETE CASCADE,
   send_date DATE NOT NULL,

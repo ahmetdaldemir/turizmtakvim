@@ -26,7 +26,9 @@ class _GalleryScreenState extends State<GalleryScreen> {
   }
 
   Future<void> _reload() async {
-    setState(() => _future = widget.session.api.fetchAlbums());
+    setState(() {
+      _future = widget.session.api.fetchAlbums();
+    });
     await _future;
   }
 
@@ -51,7 +53,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
           children: [
             PanelHeader(
               title: 'Galeri',
-              subtitle: 'Her paylaşım bir albümdür',
+              subtitle: 'Albüm paylaşın, sonra düzenleyin',
               session: widget.session,
               onRefresh: _reload,
               onLogout: widget.session.logout,
@@ -79,7 +81,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
                             child: Padding(
                               padding: EdgeInsets.all(24),
                               child: Text(
-                                'Henüz albüm yok. Görselleri seçip tek seferde paylaşın.',
+                                'Henüz albüm yok. Görselleri seçip paylaşın; sonra yeni fotoğraf ekleyebilirsiniz.',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(color: muted),
                               ),
@@ -135,7 +137,7 @@ class _GalleryComposeScreenState extends State<GalleryComposeScreen> {
   String? _error;
 
   Future<void> _pick() async {
-    final files = await ImagePicker().pickMultiImage(imageQuality: 75, limit: 20);
+    final files = await ImagePicker().pickMultiImage(maxWidth: 1920, imageQuality: 75, limit: 20);
     if (files.isEmpty) return;
     setState(() {
       _paths
@@ -183,7 +185,7 @@ class _GalleryComposeScreenState extends State<GalleryComposeScreen> {
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         children: [
           const Text(
-            'Seçtiğiniz görseller bir kez, tek albüm olarak paylaşılır. Müşteriler albümü listede görür.',
+            'Seçtiğiniz görseller bir albüm olarak paylaşılır. Müşteriler listede görür. Paylaşımdan sonra ad ve görseller düzenlenebilir.',
             style: TextStyle(color: muted),
           ),
           const SizedBox(height: 16),
@@ -236,11 +238,93 @@ class AdminAlbumScreen extends StatefulWidget {
 
 class _AdminAlbumScreenState extends State<AdminAlbumScreen> {
   late Future<GalleryAlbum> _future;
+  var _busy = false;
 
   @override
   void initState() {
     super.initState();
     _future = widget.session.api.fetchAlbum(widget.albumId);
+  }
+
+  Future<void> _reload() async {
+    setState(() {
+      _future = widget.session.api.fetchAlbum(widget.albumId);
+    });
+    await _future;
+  }
+
+  Future<void> _rename(GalleryAlbum album) async {
+    final title = TextEditingController(text: album.title);
+    final next = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Albüm adı'),
+        content: TextField(
+          controller: title,
+          autofocus: true,
+          textCapitalization: TextCapitalization.sentences,
+          decoration: const InputDecoration(labelText: 'Albüm adı'),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Vazgeç')),
+          FilledButton(onPressed: () => Navigator.pop(context, title.text.trim()), child: const Text('Kaydet')),
+        ],
+      ),
+    );
+    title.dispose();
+    if (next == null || next.isEmpty || next == album.title) return;
+    try {
+      await widget.session.api.updateAlbum(id: album.id, title: next);
+      if (mounted) await _reload();
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString())));
+    }
+  }
+
+  Future<void> _addPhotos(GalleryAlbum album) async {
+    final remaining = 20 - album.photoCount;
+    if (remaining <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Bir albümde en fazla 20 görsel olabilir.')));
+      return;
+    }
+    final files = await ImagePicker().pickMultiImage(maxWidth: 1920, imageQuality: 75, limit: remaining);
+    if (files.isEmpty) return;
+    setState(() => _busy = true);
+    try {
+      await widget.session.api.addAlbumPhotos(
+        id: album.id,
+        photoPaths: files.map((file) => file.path).take(remaining).toList(),
+      );
+      if (mounted) await _reload();
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString())));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _removePhoto(GalleryPhoto photo) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Görsel silinsin mi?'),
+        content: const Text('Bu görsel albümden kaldırılır.'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Vazgeç')),
+          FilledButton(onPressed: () => Navigator.pop(context, true), child: const Text('Sil')),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    try {
+      await widget.session.api.deleteAlbumPhoto(albumId: widget.albumId, photoId: photo.id);
+      if (mounted) await _reload();
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error.toString())));
+    }
   }
 
   Future<void> _delete(GalleryAlbum album) async {
@@ -276,15 +360,24 @@ class _AdminAlbumScreenState extends State<AdminAlbumScreen> {
           appBar: AppBar(
             title: Text(album?.title ?? 'Albüm'),
             actions: [
-              if (album != null)
-                IconButton(onPressed: () => _delete(album), icon: const Icon(Icons.delete_outline)),
+              if (album != null) ...[
+                IconButton(onPressed: _busy ? null : () => _rename(album), icon: const Icon(Icons.edit_outlined)),
+                IconButton(onPressed: _busy ? null : () => _delete(album), icon: const Icon(Icons.delete_outline)),
+              ],
             ],
           ),
+          floatingActionButton: album == null
+              ? null
+              : FloatingActionButton.extended(
+                  onPressed: _busy ? null : () => _addPhotos(album),
+                  icon: const Icon(Icons.add_photo_alternate_outlined),
+                  label: Text(_busy ? 'Ekleniyor...' : 'Görsel ekle'),
+                ),
           body: snapshot.connectionState != ConnectionState.done
               ? const Center(child: CircularProgressIndicator())
               : snapshot.hasError
               ? Center(child: Text('${snapshot.error}'))
-              : GalleryAlbumView(album: album!),
+              : GalleryAlbumView(album: album!, onRemovePhoto: _removePhoto),
         );
       },
     );

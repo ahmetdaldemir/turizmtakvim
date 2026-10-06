@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:musait/config.dart';
 import 'package:musait/gallery.dart';
+import 'package:musait/gallery_upload.dart';
 import 'models.dart';
 
 class ApiException implements Exception {
@@ -121,6 +122,66 @@ class ApiService {
     return ManagedCustomer.fromJson(asJsonMap(data));
   }
 
+  Future<ManagedCustomer> updateCustomer({
+    required int id,
+    required String name,
+    required String email,
+    String? phone,
+    String? password,
+  }) async {
+    final data = await _send('PATCH', _uri('/api/customers/$id'), {
+      'name': name,
+      'email': email,
+      'phone': phone,
+      if (password != null && password.isNotEmpty) 'password': password,
+    });
+    return ManagedCustomer.fromJson(asJsonMap(data));
+  }
+
+  Future<CustomerHistory> fetchCustomerHistory(int id) async {
+    return CustomerHistory.fromJson(asJsonMap(await _get(_uri('/api/customers/$id/history'))));
+  }
+
+  Future<CustomerHistoryEntry> createCustomerEntry({
+    required int customerId,
+    required String title,
+    required DateTime occurredOn,
+    required double amount,
+    String? notes,
+  }) async {
+    final data = await _send('POST', _uri('/api/customers/$customerId/history'), {
+      'title': title,
+      'occurredOn': isoDate(occurredOn),
+      'amount': amount,
+      'notes': notes,
+    });
+    return CustomerHistoryEntry.fromJson(asJsonMap(data));
+  }
+
+  Future<CustomerHistoryEntry> updateCustomerEntry({
+    required int customerId,
+    required int entryId,
+    required String title,
+    required DateTime occurredOn,
+    required double amount,
+    String? notes,
+  }) async {
+    final data = await _send('PATCH', _uri('/api/customers/$customerId/history/$entryId'), {
+      'title': title,
+      'occurredOn': isoDate(occurredOn),
+      'amount': amount,
+      'notes': notes,
+    });
+    return CustomerHistoryEntry.fromJson(asJsonMap(data));
+  }
+
+  Future<void> deleteCustomerEntry({required int customerId, required int entryId}) async {
+    final response = await _client
+        .delete(_uri('/api/customers/$customerId/history/$entryId'), headers: _headers)
+        .timeout(const Duration(seconds: 12));
+    if (response.statusCode != 204) throw _errorFrom(response);
+  }
+
   Future<List<GalleryAlbum>> fetchAlbums() async {
     final data = await _get(_uri('/api/gallery/albums'));
     return (data as List).map((item) => GalleryAlbum.fromJson(asJsonMap(item))).toList();
@@ -135,10 +196,38 @@ class ApiService {
       ..headers['Authorization'] = 'Bearer $token'
       ..fields['title'] = title;
     for (final path in photoPaths) {
-      request.files.add(await http.MultipartFile.fromPath('photos', path));
+      request.files.add(await galleryPhotoPart(path));
     }
     final streamed = await _client.send(request).timeout(const Duration(seconds: 90));
     final response = await http.Response.fromStream(streamed);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return GalleryAlbum.fromJson(asJsonMap(jsonDecode(response.body)));
+    }
+    throw _errorFrom(response);
+  }
+
+  Future<GalleryAlbum> updateAlbum({required int id, required String title}) async {
+    return GalleryAlbum.fromJson(asJsonMap(await _send('PATCH', _uri('/api/gallery/albums/$id'), {'title': title})));
+  }
+
+  Future<GalleryAlbum> addAlbumPhotos({required int id, required List<String> photoPaths}) async {
+    final request = http.MultipartRequest('POST', _uri('/api/gallery/albums/$id/photos'))
+      ..headers['Authorization'] = 'Bearer $token';
+    for (final path in photoPaths) {
+      request.files.add(await galleryPhotoPart(path));
+    }
+    final streamed = await _client.send(request).timeout(const Duration(seconds: 90));
+    final response = await http.Response.fromStream(streamed);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      return GalleryAlbum.fromJson(asJsonMap(jsonDecode(response.body)));
+    }
+    throw _errorFrom(response);
+  }
+
+  Future<GalleryAlbum> deleteAlbumPhoto({required int albumId, required int photoId}) async {
+    final response = await _client
+        .delete(_uri('/api/gallery/albums/$albumId/photos/$photoId'), headers: _headers)
+        .timeout(const Duration(seconds: 12));
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return GalleryAlbum.fromJson(asJsonMap(jsonDecode(response.body)));
     }

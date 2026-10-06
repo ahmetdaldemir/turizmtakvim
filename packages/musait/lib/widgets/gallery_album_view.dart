@@ -4,9 +4,10 @@ import '../gallery.dart';
 import '../theme.dart';
 
 class GalleryAlbumView extends StatelessWidget {
-  const GalleryAlbumView({super.key, required this.album});
+  const GalleryAlbumView({super.key, required this.album, this.onRemovePhoto});
 
   final GalleryAlbum album;
+  final ValueChanged<GalleryPhoto>? onRemovePhoto;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class GalleryAlbumView extends StatelessWidget {
       return const Center(child: Text('Bu albümde görsel yok.', style: TextStyle(color: muted)));
     }
     return GridView.builder(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+      padding: EdgeInsets.fromLTRB(16, 8, 16, onRemovePhoto == null ? 24 : 88),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 10,
@@ -24,18 +25,40 @@ class GalleryAlbumView extends StatelessWidget {
       itemCount: photos.length,
       itemBuilder: (context, index) {
         final photo = photos[index];
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => GalleryPhotoPager(photos: photos, initialIndex: index, title: album.title),
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => GalleryPhotoPager(photos: photos, initialIndex: index, title: album.title),
+                    ),
+                  );
+                },
+                child: Image.network(photo.url, fit: BoxFit.cover),
               ),
-            );
-          },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Image.network(photo.url, fit: BoxFit.cover),
+              if (onRemovePhoto != null)
+                Positioned(
+                  top: 6,
+                  right: 6,
+                  child: Material(
+                    color: Colors.black54,
+                    shape: const CircleBorder(),
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: () => onRemovePhoto!(photo),
+                      child: const Padding(
+                        padding: EdgeInsets.all(6),
+                        child: Icon(Icons.close, color: Colors.white, size: 18),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
           ),
         );
       },

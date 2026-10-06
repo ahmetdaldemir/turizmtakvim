@@ -20,17 +20,10 @@ class _GateLoginScreenState extends State<GateLoginScreen> {
   var _loading = false;
   String? _error;
 
-  @override
-  void initState() {
-    super.initState();
-    _email.text = AppConfig.managerDemoEmail;
-  }
-
   void _select(LoginKind kind) {
     setState(() {
       _kind = kind;
       _error = null;
-      _email.text = kind == LoginKind.business ? AppConfig.managerDemoEmail : AppConfig.customerDemoEmail;
     });
   }
 

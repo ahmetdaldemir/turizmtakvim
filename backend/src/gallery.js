@@ -2,7 +2,6 @@ import { randomBytes } from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { env } from './config.js';
 import { query } from './db.js';
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
@@ -16,8 +15,22 @@ const EXT_BY_TYPE = {
   'image/webp': '.webp',
 };
 
+export function sniffImage(buffer) {
+  if (!buffer || buffer.length < 12) return null;
+  if (buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff) {
+    return { mime: 'image/jpeg', ext: '.jpg' };
+  }
+  if (buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4e && buffer[3] === 0x47) {
+    return { mime: 'image/png', ext: '.png' };
+  }
+  if (buffer.toString('ascii', 0, 4) === 'RIFF' && buffer.toString('ascii', 8, 12) === 'WEBP') {
+    return { mime: 'image/webp', ext: '.webp' };
+  }
+  return null;
+}
+
 function photoUrl(tenantId, filename) {
-  return `${env.appUrl}/api/gallery/files/${tenantId}/${filename}`;
+  return `/api/gallery/files/${tenantId}/${filename}`;
 }
 
 function mapAlbum(row, photos = null) {
@@ -76,6 +89,27 @@ export async function getAlbum(tenantId, id) {
   );
 }
 
+async function writePhotos(tenantId, albumId, files, startOrder) {
+  const dir = path.join(galleryRoot, String(tenantId));
+  await fs.mkdir(dir, { recursive: true });
+  for (const [index, file] of files.entries()) {
+    const kind = sniffImage(file.buffer);
+    if (!kind) {
+      const error = new Error('Yalnızca JPEG, PNG veya WebP yükleyin.');
+      error.status = 400;
+      throw error;
+    }
+    const ext = kind.ext || EXT_BY_TYPE[kind.mime] || '.jpg';
+    const filename = `${randomBytes(16).toString('hex')}${ext}`;
+    await fs.writeFile(path.join(dir, filename), file.buffer);
+    await query(
+      `INSERT INTO gallery_photos (album_id, tenant_id, filename, sort_order)
+       VALUES ($1, $2, $3, $4)`,
+      [albumId, tenantId, filename, startOrder + index],
+    );
+  }
+}
+
 export async function createAlbum(tenantId, title, files) {
   const name = String(title ?? '').trim();
   if (!name) {
@@ -99,26 +133,64 @@ export async function createAlbum(tenantId, title, files) {
     [tenantId, name],
   );
   const album = rows[0];
-  const dir = path.join(galleryRoot, String(tenantId));
-  await fs.mkdir(dir, { recursive: true });
 
   try {
-    for (const [index, file] of files.entries()) {
-      const ext = EXT_BY_TYPE[file.mimetype] || '.jpg';
-      const filename = `${randomBytes(16).toString('hex')}${ext}`;
-      await fs.writeFile(path.join(dir, filename), file.buffer);
-      await query(
-        `INSERT INTO gallery_photos (album_id, tenant_id, filename, sort_order)
-         VALUES ($1, $2, $3, $4)`,
-        [album.id, tenantId, filename, index],
-      );
-    }
+    await writePhotos(tenantId, album.id, files, 0);
   } catch (error) {
     await query('DELETE FROM gallery_albums WHERE id = $1 AND tenant_id = $2', [album.id, tenantId]);
     throw error;
   }
 
   return getAlbum(tenantId, album.id);
+}
+
+export async function updateAlbum(tenantId, id, title) {
+  const name = String(title ?? '').trim();
+  if (!name) {
+    const error = new Error('Albüm adı zorunlu.');
+    error.status = 400;
+    throw error;
+  }
+  const { rowCount } = await query(
+    'UPDATE gallery_albums SET title = $3 WHERE id = $1 AND tenant_id = $2',
+    [id, tenantId, name],
+  );
+  if (!rowCount) return null;
+  return getAlbum(tenantId, id);
+}
+
+export async function addPhotos(tenantId, id, files) {
+  if (!files?.length) {
+    const error = new Error('En az bir görsel seçin.');
+    error.status = 400;
+    throw error;
+  }
+  const album = await getAlbum(tenantId, id);
+  if (!album) return null;
+  const nextCount = album.photoCount + files.length;
+  if (nextCount > 20) {
+    const error = new Error(`Bir albümde en fazla 20 görsel olabilir. ${20 - album.photoCount} görsel daha eklenebilir.`);
+    error.status = 400;
+    throw error;
+  }
+  const start = album.photos?.at(-1)?.sortOrder != null ? album.photos.at(-1).sortOrder + 1 : album.photoCount;
+  await writePhotos(tenantId, id, files, start);
+  return getAlbum(tenantId, id);
+}
+
+export async function deletePhoto(tenantId, albumId, photoId) {
+  const { rows } = await query(
+    `SELECT filename FROM gallery_photos
+     WHERE id = $1 AND album_id = $2 AND tenant_id = $3`,
+    [photoId, albumId, tenantId],
+  );
+  if (!rows[0]) return null;
+  await query(
+    'DELETE FROM gallery_photos WHERE id = $1 AND album_id = $2 AND tenant_id = $3',
+    [photoId, albumId, tenantId],
+  );
+  await fs.unlink(path.join(galleryRoot, String(tenantId), rows[0].filename)).catch(() => {});
+  return getAlbum(tenantId, albumId);
 }
 
 export async function deleteAlbum(tenantId, id) {
